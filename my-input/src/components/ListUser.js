@@ -1,8 +1,9 @@
 import React from "react";
 
-function ListUser({ users, onDelete }) {
+function ListUser({ users, onDelete, onUpdateToggle, onSelectUser }) {
     // console.log(data);
     // let list = data;
+    
     return (
         <div>
             {/* List User */}
@@ -14,6 +15,11 @@ function ListUser({ users, onDelete }) {
                     <b>{user.lastName}</b>
                     &nbsp;
                     <button key={user.id} onClick={() => {onDelete(user.id)}}>del</button>
+                    &nbsp;
+                    <button key={user.id+"edit-btn"} onClick={() => {
+                        onUpdateToggle();
+                        onSelectUser(user); //app.js 가아닌 여기서 정보 전달
+                    }}>edit</button>
                 </div>
             ))}
         </div>

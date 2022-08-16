@@ -7,6 +7,7 @@ import ListUser from './components/ListUser';
 import Storage from './components/Storage';
 // import data from './db/mock.json';
 import axios from 'axios';
+import UpdateUser from './components/UpdateUser';
 
 function App() {
   // data
@@ -89,6 +90,48 @@ function App() {
     setUsers(users.filter((user) => (user.id !== id))); // 유저 id !== del의 id
   }
 
+  // 수정 - 상태관리
+  const [updateToggle, setUpdateToggle] = useState(false);
+  // setUpdateToggle 을 listuser에게 전달, listuser 에서 상태변경후 app.js 에게까지 돌려준다.
+  // 수정 - toggle 상태를 변경 함수
+  const onUpdateToggle = () => {
+    // console.log('App.js : update toggle'); // 확인
+    setUpdateToggle(!updateToggle);
+  }
+  // 수정 - edit 버튼 클릭시 UpdateUser에 클릭한 user정보(이름)을 관리하는 state
+  const [selectedUser, setSelectedUser] = useState(null); // 객체로 초기값 시작! null 이 객체인듯!
+  // 수정 - 선택한 user의 상태를 변경 함수 ()
+  const onSelectUser = (user) => {
+    // 콘솔로 listuser에서 넘어오는지 확인
+    // console.log(user); // 넘어온다.
+    setSelectedUser(user); // 그러면 업데이트 시켜주자
+    // 이 업데이트된 정보를 그러면 넘겨주자 선택유저한테
+  }
+
+  // 수정 - 실제 수정이 일어나는 기능
+  const onUpdate = (userId, newName) => {
+    // console.log('확인');
+    console.log(`${userId} - ${newName} 확인`);
+
+    // 실제 수정 로직
+    // 1) 수정 완료 버튼 누르면 수정화면(UpdateUser)이 사라져야 한다.
+    // 2) 업데이트 
+    // 2-1) 현재 전체의 출력 데이터가 저장되는 객체  -> users
+    // 2-2) 전체 출력 객체에서 파라미터로 넘겨져온 userId와 
+    //      전체 출력 객체 내부에 있는 특정 객체의 id값이 같은지 조건
+    //      -> 배열이다! 고로 배열에서 특정 조건 --- 반복(map) + 조건(삼항 연산자)
+    //         userId === id ? {newName 객체} : {본인의 객체}
+    // 2-3) 위의 조건으로 두 값이 같다면 특정 객체의 name이
+    //      파라미터로 넘겨져온 newName으로 대체가 된다.
+    // 2-4) 업데이트 하자
+    setUpdateToggle(!updateToggle);
+    
+    // for(let i=0; i<)
+    
+    // setUsers()
+
+  }
+
   return (
     // step01
     // <Input />
@@ -104,7 +147,15 @@ function App() {
         onAdd={onAdd}
       />
 
-      <ListUser users={users} onDelete={onDelete} />
+      <ListUser 
+        users={users}
+        onDelete={onDelete} 
+        onUpdateToggle={onUpdateToggle}
+        onSelectUser={onSelectUser}
+      />
+      {/* user로 바로 보내주지않고 selectUser로 새로 만들어서 listUser에서 보내주고 받아오고 보내준다. */}
+      {updateToggle && <UpdateUser selectedUser={selectedUser} onUpdate={onUpdate}/>}
+      
       {/* <Storage /> */}
     </div>
   );
