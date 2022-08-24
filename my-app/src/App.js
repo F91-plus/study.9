@@ -19,8 +19,16 @@ import Rendering from './components/Rendering';
 import Controll from './components/Controll';
 import Parent from './components/Parent';
 import Child from './components/Child';
+import Page from './hooks/useContext/Page';
 import AAA from './components/AAA';
+import { ThemeContext } from './contexts/ThemeContext';
 import { useState } from 'react';
+import UseReduser from './hooks/useReducer/UseReduser';
+import UseReduser2 from './hooks/useReducer/UseReduser2';
+import Redux from './redux/Redux';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './redux/Reducer';
 
 function App() {
 
@@ -30,9 +38,15 @@ function App() {
   const color = {
     color: 'red'
   }
-
   // JSX 5. 변수 사용
   const name = "it";
+
+  const [ isDark, setIsDark ] = useState(false);
+  
+
+  const store = createStore(reducer , 0,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  ); // 이 값이 전달된다.
 
   return (    
     // <div className="App">
@@ -131,7 +145,26 @@ function App() {
     // <Rendering />
     // <Controll />
     // <Parent />
-    <AAA />
+
+/*
+    <ThemeContext.Provider value={{ isDark, setIsDark 
+    }}>
+      <Page 
+        // Context.Provider가 값을 전달해준다
+        // isDark={isDark}
+        // setIsDark={setIsDark}
+        // 고로 Page에서 props를 전달하지 않아도 된다.
+      />
+    </ThemeContext.Provider>
+*/
+
+    // <UseReduser />
+    // <UseReduser2 />
+    <Provider store={store}>
+      <Redux  />  
+    </Provider>
+
+    // <AAA />
   );
 }
 

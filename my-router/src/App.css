@@ -36,21 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.hello {
-  color: gold;
-}
-
-#container {
-  border: 5px solid navy;
-}
-
-#container div {
-  border: 5px solid navy;
-  margin: 10px;
-}
-
-#markets {
-  display: flex;
-  justify-content: space-around;
-}

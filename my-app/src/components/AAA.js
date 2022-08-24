@@ -17,9 +17,9 @@ function AAA() {
     const [StateNum2, setStateNum2] = useState(0);
     const [StateToggle, setStateToggle] = useState(true);
     const ClickStateColor = () => {
-        if(StateColor != color_aqua) {
+        if(StateColor !== color_aqua) {
             setStateColor(color_black)
-        } else if(StateColor == color_black) {
+        } else if(StateColor === color_black) {
             setStateColor(color_aqua)
         }
         setStateNum1(StateNum1+1);

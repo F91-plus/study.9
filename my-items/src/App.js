@@ -5,6 +5,9 @@ import './App.css';
 import mockItems from './db/mock.json'
 import ItemForm from './components/ItemForm';
 import ItemList from './components/ItemList';
+import ItemConfig from './components/ItemConfig';
+import { LocaleProvider, useLocale } from './context/LocaleContext';
+import LocaleSelect from './components/LocaleSelect';
 
 function App() {
   const [items, setItems] = useState(mockItems);
@@ -73,26 +76,54 @@ function App() {
     setItems((prevItems) => [newItem, ...prevItems]);
   }
 
+  // 수정 상태관리
+  const [configToggle, setConfigToggle] = useState(false);
+  const onConfigToggle = () => {
+      setConfigToggle(!configToggle);
+  }
+
   // 수정
+  const handleConfig = () => {
+
+  }
+
+  const [ locale, setLocale ] = useState('kor');
+
+  // context의 범위는 내부에서만 사용이 가능하고 외부에서는 사용이 불가능하다
+  // useLocale();
+
 
   return (
-    <div>
-      <ItemForm 
-        onSubmitData = {handleInsert}
-      />
-      <button name='createdAt' onClick={handleOrder}>최신순</button>
-      <button name='calorie' onClick={handleOrder}>칼로리순</button>
-      {/* var 3 */}
-      {/* <button onClick={handleOrder}>최신순</button>
-      <button onClick={handleOrder}>칼로리순</button> */}
-      <ItemList 
-        items = {items} // app.js을 통해서 데이터가 받아져옴
-        // newestItem={handleNewest}
-        // items3 = {orderdItems}
-        // props로 전달할때 on~~로 전달하는게 좋다
-        onDelete = {handleDelete} // 1 삭제 기능 추가
-      />
-    </div>
+    // <LocaleContext.Provider value={locale}>
+    <LocaleProvider>
+      <div>
+        <ItemForm 
+          onSubmitData = {handleInsert}
+        />
+        <button name='createdAt' onClick={handleOrder}>최신순</button>
+        <button name='calorie' onClick={handleOrder}>칼로리순</button>
+        
+        <LocaleSelect 
+          // value={locale} 
+          // onChange={setLocale}
+        />
+
+        {/* var 3 */}
+        {/* <button onClick={handleOrder}>최신순</button>
+        <button onClick={handleOrder}>칼로리순</button> */}
+        <ItemList 
+          items = {items} // app.js을 통해서 데이터가 받아져옴
+          // newestItem={handleNewest}
+          // items3 = {orderdItems}
+          // props로 전달할때 on~~로 전달하는게 좋다
+          onDelete = {handleDelete} // 1 삭제 기능 추가
+          // onConfig = {handleConfig}
+        />
+
+        {/* {configToggle && <ItemConfig />} */}
+      </div>
+    </LocaleProvider>
+    // </LocaleContext.Provider>
   );
 }
 
